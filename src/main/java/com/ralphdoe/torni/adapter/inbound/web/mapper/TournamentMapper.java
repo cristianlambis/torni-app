@@ -12,7 +12,7 @@ public interface TournamentMapper {
     // Domain → DTO
     TournamentDto toDto(Tournament tournament);
 
-    // DTO → Domain (usa el constructor de dominio)
+    // DTO → Domain: ignoramos el ID, que se genera internamente
     @Mapping(target = "id", ignore = true)
     Tournament toDomain(CreateTournamentDto dto);
 }

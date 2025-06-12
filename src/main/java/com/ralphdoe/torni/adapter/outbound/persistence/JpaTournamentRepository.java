@@ -35,7 +35,8 @@ public class JpaTournamentRepository implements TournamentRepository {
 
     @Override
     public Optional<Tournament> findById(UUID id) {
-        return repo.findById(id).map(this::toDomain);
+        return repo.findById(id)
+                .map(this::toDomain);
     }
 
     @Override
@@ -53,6 +54,7 @@ public class JpaTournamentRepository implements TournamentRepository {
 
     private Tournament toDomain(TournamentEntity e) {
         return new Tournament(
+                e.getId(),
                 e.getName(),
                 TournamentType.valueOf(e.getType()),
                 e.getPlayerCount(),
