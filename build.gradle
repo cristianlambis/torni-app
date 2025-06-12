@@ -24,20 +24,48 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Core Spring Boot
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.amqp:spring-rabbit-stream'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	// RabbitMQ (mensajería)
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	// H2 para desarrollo/local y PostgreSQL en producción
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
+
+	// MapStruct para mapeo DTO ⇄ Entidades / Dominio
+	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+	// Lombok (reduce boilerplate)
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Swagger 2 / Springfox
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+	//Sólo para UI (si la necesitas explícitamente)
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	// Desarrollo
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// Tests unitarios e integración
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.testcontainers:junit-jupiter:1.18.3'
+	testImplementation 'org.testcontainers:postgresql:1.18.3'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.annotationProcessorPath = configurations.annotationProcessor
 }
 
 tasks.named('test') {
