@@ -5,6 +5,7 @@ import com.ralphdoe.torni.domain.model.Tournament;
 import com.ralphdoe.torni.domain.model.TournamentType;
 import com.ralphdoe.torni.domain.port.MatchRepository;
 import com.ralphdoe.torni.domain.port.TournamentRepository;
+import com.ralphdoe.torni.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ public class GenerateFixtureUseCase {
     public List<Match> execute(UUID tournamentId) {
         log.info("Generating fixture for tournament {}", tournamentId);
         Tournament t = tournamentRepo.findById(tournamentId)
-                .orElseThrow(() -> new IllegalArgumentException("Tournament not found: " + tournamentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Tournament not found: " + tournamentId));
 
         // Limpia partidos antiguos
         // (suponiendo que adapter outbound entenderá delete por torneo)

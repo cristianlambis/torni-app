@@ -4,6 +4,7 @@ import com.ralphdoe.torni.domain.model.Player;
 import com.ralphdoe.torni.domain.model.Tournament;
 import com.ralphdoe.torni.domain.port.PlayerRepository;
 import com.ralphdoe.torni.domain.port.TournamentRepository;
+import com.ralphdoe.torni.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ public class AddPlayerUseCase {
                           String avatarUrl) {
         log.info("Adding player '{}' to tournament {}", name, tournamentId);
         Tournament t = tournamentRepo.findById(tournamentId)
-                .orElseThrow(() -> new IllegalArgumentException("Tournament not found: " + tournamentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Tournament not found: " + tournamentId));
 
         Player p = new Player(t.getId(), name, avatarUrl);
         t.addPlayer(p);

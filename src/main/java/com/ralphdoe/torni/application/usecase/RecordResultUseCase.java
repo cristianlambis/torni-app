@@ -2,6 +2,7 @@ package com.ralphdoe.torni.application.usecase;
 
 import com.ralphdoe.torni.domain.model.Match;
 import com.ralphdoe.torni.domain.port.MatchRepository;
+import com.ralphdoe.torni.exception.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ public class RecordResultUseCase {
     public Match execute(UUID matchId, int homeScore, int awayScore) {
         log.info("Recording result for match {}: {}-{}", matchId, homeScore, awayScore);
         Match m = matchRepo.findById(matchId)
-                .orElseThrow(() -> new IllegalArgumentException("Match not found: " + matchId));
+                .orElseThrow(() -> new ResourceNotFoundException("Match not found: " + matchId));
 
         m.recordScore(homeScore, awayScore);
         Match updated = matchRepo.save(m);
